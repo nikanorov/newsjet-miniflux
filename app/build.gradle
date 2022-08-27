@@ -1,0 +1,165 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.10'
+}
+
+android {
+    compileSdkVersion 33
+    defaultConfig {
+        applicationId 'com.nikanorov.newsjetminiflux'
+        minSdkVersion 21
+        targetSdkVersion 32 //do not bump until fixed: https://issuetracker.google.com/issues/237785596
+        versionCode 1
+        versionName '0.1'
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    signingConfigs {
+        // We use a bundled debug keystore, to allow debug builds from CI to be upgradable
+        /*debug {
+            storeFile rootProject.file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }*/
+        release {
+            storeFile file(MyReleaseKeyPath)
+            storePassword signPassword
+            keyAlias MyKeyAlias
+            keyPassword signPassword
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+    // Tests can be Robolectric or instrumented tests
+    sourceSets {
+        String sharedTestDir = 'src/sharedTest/java'
+        test {
+            java.srcDir sharedTestDir
+        }
+        androidTest {
+            java.srcDir sharedTestDir
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.3.0'
+    }
+    packagingOptions {
+        resources {
+            excludes += ['/META-INF/AL2.0', '/META-INF/LGPL2.1']
+        }
+    }
+
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
+    implementation "androidx.compose.runtime:runtime:$compose_version"
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.foundation:foundation-layout:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    implementation "androidx.compose.foundation:foundation:$compose_version"
+    implementation "androidx.compose.animation:animation:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation 'androidx.paging:paging-compose:1.0.0-alpha16'
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+
+    implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-insets:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+
+    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'androidx.activity:activity-ktx:1.5.1'
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation "androidx.activity:activity-compose:1.5.1"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
+
+    def nav_version = "2.5.1"
+    implementation "androidx.navigation:navigation-compose:$nav_version"
+
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    implementation "androidx.window:window:1.0.0"
+
+    //KTOR
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+    implementation "io.ktor:ktor-client-serialization:$ktor_version"
+    implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
+    implementation "io.ktor:ktor-serialization-kotlinx-json:$ktor_version"
+    implementation "io.ktor:ktor-client-okhttp:$ktor_version"
+
+    //paging
+    def paging_version = "3.1.1"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+
+    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation("io.insert-koin:koin-androidx-compose:$koin_version")
+
+    implementation ("androidx.webkit:webkit:1.5.0")
+
+    androidTestImplementation 'androidx.test:core:1.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation "androidx.compose.ui:ui-test:$compose_version"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+    // Robolectric dependencies
+    testImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    testImplementation 'org.robolectric:robolectric:4.8.2'
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        // Treat all Kotlin warnings as errors (disabled by default)
+        allWarningsAsErrors = project.hasProperty("warningsAsErrors") ? project.warningsAsErrors : false
+
+        freeCompilerArgs += '-Xopt-in=kotlin.RequiresOptIn'
+        // Enable experimental coroutines APIs, including Flow
+        freeCompilerArgs += '-Xopt-in=kotlin.Experimental'
+
+        // Set JVM target to 1.8
+        jvmTarget = "1.8"
+    }
+}
+
+tasks.withType(Test) {
+    systemProperty "robolectric.logging", "stdout"
+} 

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Newsjet Miniflux</string>
+    <string name="load_error">Can\'t update latest news</string>
+    <string name="retry">Retry</string>
+    <string name="cd_add_to_favorites">Add to favorites</string>
+    <string name="cd_share">Share</string>
+    <string name="cd_text_settings">Text settings</string>
+    <string name="cd_open_navigation_drawer">Open navigation drawer</string>
+    <string name="cd_more_actions">More actions</string>
+    <string name="unbookmark">unbookmark</string>
+    <string name="bookmark">bookmark</string>
+    <string name="cd_search">Search</string>
+    <string name="published_in">Published in: \n%1$s</string>
+    <string name="fewer_stories">Show fewer stories like this?</string>
+    <string name="fewer_stories_content">This feature is not yet implemented</string>
+    <string name="agree">AGREE</string>
+    <string name="close">CLOSE</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">Home</string>
+    <string name="home_tap_to_load_content">Tap to load content</string>
+    <string name="home_post_min_read">%1$s - %2$d min read</string>
+    <string name="home_search">Search articles</string>
+    <string name="home_no_posts">No posts available</string>
+    <string name="error_with_details">Error: %s</string>
+
+    <!-- Article Screen -->
+    <string name="article_functionality_not_available">Functionality not available \uD83D\uDE48</string>
+    <string name="article_share_post">Share post</string>
+    <string name="article_post_min_read">%1$s • %2$d min read</string>
+
+    <!-- Navigation actions -->
+    <string name="cd_navigate_up">Navigate up</string>
+    <string name="cd_navigate_home">Navigate to the home screen</string>
+    <string name="cd_navigate_settings">Navigate to the settings screen</string>
+
+    <string name="cd_settings">Settings</string>
+    <string name="cd_feeds">Feeds</string>
+    <string name="cd_navigate_feeds">Navigate to the feeds screen</string>
+
+    <!-- Settings screen -->
+    <string name="api_url_title">API Url</string>
+    <string name="api_url_hint">https://example.com</string>
+    <string name="token_title">API Token</string>
+    <string name="token_hint">token here</string>
+    <string name="btn_save">Save</string>
+
+
+</resources>
