@@ -1,3 +1,5 @@
+# Newsjet Miniflux
+
 Simple [Miniflux](https://miniflux.app/) Android client. Currently, in early development and not ready for the production.
 
 This app is playground to experiment with Modern Android Dev Stack: Compose, Flows, Koin, Datastore etc. 
