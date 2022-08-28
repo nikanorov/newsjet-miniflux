@@ -5,4 +5,5 @@ data class Feed (
     val title: String,
     val siteUrl: String,
     val feedUrl: String,
+    var unreadCount: Int
 )

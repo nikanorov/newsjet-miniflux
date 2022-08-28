@@ -99,6 +99,10 @@ class MinifluxAPI(
         return (response.status.value == 204)
     }
 
+    suspend fun getFeedsReadUnreadCount(): ReadUnread? {
+        return client.get("$serverURL/feeds/counters").body()
+    }
+
     enum class PostStatus(val status: String) {
         READ("read"),
         UNREAD("unread"),
@@ -117,6 +121,11 @@ class MinifluxAPI(
         val feed_url: String
     )
 
+    @Serializable
+    data class ReadUnread(
+        val reads: Map<Long, Int>,
+        val unreads: Map<Long, Int>,
+    )
 
     @Serializable
     data class Entry(
@@ -134,5 +143,5 @@ class MinifluxAPI(
 
 val MinifluxAPI.FeedApi.toFeed: Feed
     get() {
-        return Feed(this.id, this.title, this.site_url, this.feed_url)
+        return Feed(this.id, this.title, this.site_url, this.feed_url, 0)
     }

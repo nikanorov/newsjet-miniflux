@@ -1,9 +1,11 @@
 package com.nikanorov.newsjetminiflux.ui.feeds
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Menu
@@ -11,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -76,12 +80,23 @@ private fun FeedsScreenContent(
 @Composable
 private fun FeedItem(feed: Feed, navController: NavHostController) {
     Spacer(Modifier.height(16.dp))
-    Text(feed.title, Modifier.clickable {
+    Row(Modifier.clickable {
         navController.navigate(JetnewsDestinations.HOME_ROUTE + "/" + feed.id) {
             popUpTo(navController.graph.findStartDestination().id) {
                 saveState = true
             }
             launchSingleTop = true
         }
-    }.padding(8.dp))
+    }) {
+        UnreadCount(feed.unreadCount.toString())
+        Text(feed.title, Modifier.padding(8.dp))
+    }
+}
+
+@Composable
+private fun UnreadCount(text: String){
+    val shape = RoundedCornerShape(8.dp)
+    Text(text, modifier = Modifier.padding(4.dp).background(
+            color = Color.LightGray, shape = shape
+        ).clip(shape).padding(4.dp))
 }
