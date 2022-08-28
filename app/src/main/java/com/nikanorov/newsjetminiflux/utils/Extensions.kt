@@ -1,5 +1,8 @@
 package com.nikanorov.newsjetminiflux.utils
 
+import android.text.format.DateUtils
+import kotlinx.datetime.Instant
+
 val String.removeTrailingSlash:String
     get(){
         if (this.endsWith("/")) {
@@ -8,3 +11,4 @@ val String.removeTrailingSlash:String
         return this
     }
 
+fun Instant.toRelative(): String = DateUtils.getRelativeTimeSpanString(this.toEpochMilliseconds()).toString()

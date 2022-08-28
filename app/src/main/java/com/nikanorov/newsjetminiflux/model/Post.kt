@@ -1,6 +1,7 @@
 package com.nikanorov.newsjetminiflux.model
 
 import androidx.annotation.DrawableRes
+import kotlinx.datetime.Instant
 
 data class Post(
     val id: Long,
@@ -19,7 +20,7 @@ data class Post(
 
 data class Metadata(
     val author: PostAuthor,
-    val date: String,
+    val date: Instant,
     val readTimeMinutes: Int
 )
 

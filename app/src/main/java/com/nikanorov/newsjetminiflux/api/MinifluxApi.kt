@@ -16,6 +16,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlinx.datetime.Instant
 
 //Miniflux API docs: https://miniflux.app/docs/api.html
 
@@ -121,7 +122,7 @@ class MinifluxAPI(
     data class Entry(
         val id: Long, val user_id: Int, val feed_id: Int, val title: String,
         val url: String, val comments_url: String, val author: String,
-        val content: String, val hash: String, val published_at: String, val created_at: String,
+        val content: String, val hash: String, val published_at: Instant, val created_at: String,
         val status: String, val share_code: String, val starred: Boolean, val reading_time: Int,
         val feed: FeedApi
     )

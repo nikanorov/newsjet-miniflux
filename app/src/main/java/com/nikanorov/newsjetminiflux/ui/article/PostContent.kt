@@ -36,6 +36,7 @@ import com.nikanorov.newsjetminiflux.R
 import com.nikanorov.newsjetminiflux.model.Metadata
 import com.nikanorov.newsjetminiflux.model.Post
 import com.nikanorov.newsjetminiflux.ui.utils.getCssPostFixes
+import com.nikanorov.newsjetminiflux.utils.toRelative
 
 private val defaultSpacerSize = 16.dp
 
@@ -160,7 +161,7 @@ private fun PostMetadata(metadata: Metadata) {
                 Text(
                     text = stringResource(
                         id = R.string.article_post_min_read, formatArgs = arrayOf(
-                            metadata.date, metadata.readTimeMinutes
+                            metadata.date.toRelative(), metadata.readTimeMinutes
                         )
                     ), style = typography.caption
                 )
