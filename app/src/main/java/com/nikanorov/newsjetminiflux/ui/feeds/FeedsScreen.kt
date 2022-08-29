@@ -80,7 +80,7 @@ private fun FeedsScreenContent(
 @Composable
 private fun FeedItem(feed: Feed, navController: NavHostController) {
     Spacer(Modifier.height(16.dp))
-    Row(Modifier.clickable {
+    Row(Modifier.fillMaxWidth().clickable {
         navController.navigate(JetnewsDestinations.HOME_ROUTE + "/" + feed.id) {
             popUpTo(navController.graph.findStartDestination().id) {
                 saveState = true
