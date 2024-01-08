@@ -43,6 +43,7 @@ import com.nikanorov.newsjetminiflux.R
 import com.nikanorov.newsjetminiflux.model.Post
 import com.nikanorov.newsjetminiflux.ui.article.postContentItems
 import com.nikanorov.newsjetminiflux.ui.article.sharePost
+import com.nikanorov.newsjetminiflux.ui.components.ListDivider
 import com.nikanorov.newsjetminiflux.ui.components.NewsjetSnackbarHost
 import com.nikanorov.newsjetminiflux.ui.modifiers.interceptKey
 import com.nikanorov.newsjetminiflux.ui.utils.BookmarkButton
@@ -441,19 +442,8 @@ private fun PostListHistorySection(
 
     Column {
         PostCardHistory(post, navigateToArticle)
-        PostListDivider()
+        ListDivider()
     }
-}
-
-/**
- * Full-width divider with padding for [PostList]
- */
-@Composable
-private fun PostListDivider() {
-    Divider(
-        modifier = Modifier.padding(horizontal = 14.dp),
-        color = MaterialTheme.colors.onSurface.copy(alpha = 0.08f)
-    )
 }
 
 /**

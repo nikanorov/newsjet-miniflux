@@ -12,9 +12,9 @@ import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -23,6 +23,8 @@ import androidx.navigation.NavHostController
 import com.nikanorov.newsjetminiflux.R
 import com.nikanorov.newsjetminiflux.model.Feed
 import com.nikanorov.newsjetminiflux.ui.JetnewsDestinations
+import com.nikanorov.newsjetminiflux.ui.components.ListDivider
+import com.nikanorov.newsjetminiflux.ui.theme.AppColors
 
 @Composable
 fun FeedsScreen(
@@ -68,9 +70,16 @@ private fun FeedsScreenContent(
     val feeds by viewModel.feeds.collectAsState()
 
     Column(modifier = modifier.navigationBarsPadding()) {
-        LazyColumn {
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             itemsIndexed(feeds) { idx, row ->
-                FeedItem(row, navController)
+                FeedItem(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    feed = row,
+                    navController = navController
+                )
+                Spacer(Modifier.height(16.dp))
+                if (idx < feeds.lastIndex)
+                    ListDivider()
             }
 
         }
@@ -78,25 +87,34 @@ private fun FeedsScreenContent(
 }
 
 @Composable
-private fun FeedItem(feed: Feed, navController: NavHostController) {
-    Spacer(Modifier.height(16.dp))
-    Row(Modifier.fillMaxWidth().clickable {
-        navController.navigate(JetnewsDestinations.HOME_ROUTE + "/" + feed.id) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
-            }
-            launchSingleTop = true
-        }
-    }) {
+private fun FeedItem(modifier: Modifier = Modifier, feed: Feed, navController: NavHostController) {
+    Row(verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable {
+                navController.navigate(JetnewsDestinations.HOME_ROUTE + "/" + feed.id) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                }
+            }) {
         UnreadCount(feed.unreadCount.toString())
         Text(feed.title, Modifier.padding(8.dp))
     }
 }
 
 @Composable
-private fun UnreadCount(text: String){
+private fun UnreadCount(text: String) {
     val shape = RoundedCornerShape(8.dp)
-    Text(text, modifier = Modifier.padding(4.dp).background(
-            color = Color.LightGray, shape = shape
-        ).clip(shape).padding(4.dp))
+    Text(
+        text = text,
+        color = AppColors.whiteDefault,
+        modifier = Modifier
+            .background(
+                color = AppColors.Red400, shape = shape
+            )
+            .clip(shape)
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+    )
 }

@@ -34,9 +34,7 @@ class MinifluxFeedsRepository(private var api: MinifluxAPI) : FeedsRepository {
                 val feedsReadUnread: MinifluxAPI.ReadUnread? = api.getFeedsReadUnreadCount()
 
                 feedsFromApi?.map {
-                    it.toFeed.apply {
-                        unreadCount = feedsReadUnread?.unreads?.get(id) ?: 0
-                    }
+                    it.toFeed.copy(unreadCount = feedsReadUnread?.unreads?.get(it.id) ?: 0)
                 }?.sortedByDescending { it.unreadCount }?.//todo: lets temporary sort by unread count, later will create sorting filter
                 let {
                     feeds.addAll(it)
