@@ -18,6 +18,7 @@ import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.nikanorov.newsjetminiflux.R
 import com.nikanorov.newsjetminiflux.model.Post
@@ -34,11 +35,13 @@ fun AuthorAndReadTime(
                 text = stringResource(
                     id = R.string.home_post_min_read,
                     formatArgs = arrayOf(
-                        post.metadata.author.name,
+                        post.feed.title,
                         post.metadata.readTimeMinutes
                     )
                 ),
-                style = MaterialTheme.typography.body2
+                style = MaterialTheme.typography.body2,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
             )
         }
     }

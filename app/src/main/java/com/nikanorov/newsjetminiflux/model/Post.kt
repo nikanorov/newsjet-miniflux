@@ -14,6 +14,7 @@ data class Post(
     val content: String = "",
     val starred: Boolean = false,
     val read: Boolean = false,
+    val feed: Feed,
     @DrawableRes val imageId: Int?,
     @DrawableRes val imageThumbId: Int?
 )

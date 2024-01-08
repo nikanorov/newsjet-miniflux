@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.nikanorov.newsjetminiflux.api.MinifluxAPI
+import com.nikanorov.newsjetminiflux.api.toFeed
 import com.nikanorov.newsjetminiflux.data.Result
 import com.nikanorov.newsjetminiflux.data.posts.PostDataSource
 import com.nikanorov.newsjetminiflux.data.posts.PostsRepository
@@ -98,7 +99,8 @@ class MinifluxPostsRepository(private var api: MinifluxAPI) : PostsRepository {
                 ),
                 starred = it.starred,
                 imageId = null,
-                imageThumbId = null
+                imageThumbId = null,
+                feed = it.feed.toFeed
             )
 
             allPosts[it.id] = post
