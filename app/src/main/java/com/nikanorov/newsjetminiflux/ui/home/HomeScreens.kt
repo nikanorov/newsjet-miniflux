@@ -39,7 +39,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.items
 import com.nikanorov.newsjetminiflux.R
 import com.nikanorov.newsjetminiflux.model.Post
 import com.nikanorov.newsjetminiflux.ui.article.postContentItems
@@ -402,8 +401,9 @@ private fun PostList(
                 }
             }
 
-            items(pagingPostList) {
-                if (it != null) {
+            items(pagingPostList.itemCount) { index->
+                val item = pagingPostList[index]
+                item?.let {
                     PostListHistorySection(it, onArticleTapped)
                 }
             }
