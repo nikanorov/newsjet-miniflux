@@ -17,6 +17,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -37,8 +40,6 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nikanorov.newsjetminiflux.R
 import com.nikanorov.newsjetminiflux.model.Post
 import com.nikanorov.newsjetminiflux.ui.article.postContentItems
@@ -321,6 +322,7 @@ private fun HomeScreenWithList(
  * @param onRefresh (event) event to request refresh
  * @param content (slot) the main content to show
  */
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun LoadingContent(
     empty: Boolean,
@@ -329,14 +331,16 @@ private fun LoadingContent(
     onRefresh: () -> Unit,
     content: @Composable () -> Unit
 ) {
+    val pullRefreshState = rememberPullRefreshState(loading, { onRefresh() })
+
     if (empty) {
         emptyContent()
     } else {
-        SwipeRefresh(
-            state = rememberSwipeRefreshState(loading),
-            onRefresh = onRefresh,
-            content = content,
-        )
+        Box(Modifier.pullRefresh(pullRefreshState)) {
+            content()
+
+            PullRefreshIndicator(loading, pullRefreshState, Modifier.align(Alignment.TopCenter))
+        }
     }
 }
 

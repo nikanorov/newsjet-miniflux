@@ -98,7 +98,6 @@ dependencies {
     implementation 'androidx.paging:paging-compose:1.0.0-alpha16'
     debugImplementation "androidx.compose.ui:ui-tooling"
 
-    implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
     implementation "com.google.accompanist:accompanist-insets:$accompanist_version"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
 
