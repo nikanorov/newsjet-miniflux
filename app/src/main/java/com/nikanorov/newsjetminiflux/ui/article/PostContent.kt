@@ -3,13 +3,8 @@ package com.nikanorov.newsjetminiflux.ui.article
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -30,12 +25,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.webkit.WebSettingsCompat.FORCE_DARK_ON
 import com.nikanorov.newsjetminiflux.R
 import com.nikanorov.newsjetminiflux.model.Metadata
 import com.nikanorov.newsjetminiflux.model.Post
-import com.nikanorov.newsjetminiflux.ui.utils.getCssPostFixes
+import com.nikanorov.newsjetminiflux.ui.components.PostWebView
 import com.nikanorov.newsjetminiflux.utils.toRelative
 
 private val defaultSpacerSize = 16.dp
@@ -97,37 +90,16 @@ fun LazyListScope.postContentItems(post: Post) {
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 private fun PostContentView(post: Post) {
-    val context = LocalContext.current
-    val isDarkMode = isSystemInDarkTheme()
-
-    AndroidView(factory = {
-        WebView(context).apply {
-
-            webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(
-                    view: WebView?, request: WebResourceRequest?
-                ): Boolean {
-                    val url = request?.url ?: return false
-                    context.startActivity(Intent(Intent.ACTION_VIEW, url))
-                    return true
-                }
-            }
-            settings.javaScriptEnabled = true
-
-
-            //issue: https://issuetracker.google.com/issues/237785596
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && isDarkMode) {
-                settings.forceDark = FORCE_DARK_ON
-            }
-
-            loadDataWithBaseURL(null, getCssPostFixes() + post.content, "text/html", "UTF-8", null)
-        }
-    })
+    PostWebView (content = post.content)
 }
+
 
 @Composable
 private fun PostHeaderImage(post: Post) {
-    val imageModifier = Modifier.heightIn(min = 180.dp).fillMaxWidth().clip(shape = MaterialTheme.shapes.medium)
+    val imageModifier = Modifier
+        .heightIn(min = 180.dp)
+        .fillMaxWidth()
+        .clip(shape = MaterialTheme.shapes.medium)
     post.imageId?.let {
         Image(
             painter = painterResource(post.imageId), contentDescription = null, // decorative
