@@ -100,7 +100,7 @@ class HomeViewModel(
     private val postsRepository: PostsRepository, private val feedId: Long = -1L
 ) : ViewModel() {
 
-    private val viewModelState = MutableStateFlow(HomeViewModelState(isLoading = true))
+    private val viewModelState = MutableStateFlow(HomeViewModelState(isLoading = true, errorMessages = emptyList()))
 
     // UI state exposed to the UI
     val uiState = viewModelState
@@ -122,7 +122,7 @@ class HomeViewModel(
      */
     fun refreshPosts() {
         // Ui state is refreshing
-        viewModelState.update { it.copy(isLoading = true) }
+        viewModelState.update { it.copy(isLoading = true, errorMessages = emptyList()) }
 
         viewModelScope.launch {
             val result = postsRepository.getPostsFeed(feedId)
