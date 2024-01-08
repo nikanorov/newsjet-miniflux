@@ -46,7 +46,6 @@ import com.nikanorov.newsjetminiflux.ui.article.postContentItems
 import com.nikanorov.newsjetminiflux.ui.article.sharePost
 import com.nikanorov.newsjetminiflux.ui.components.NewsjetSnackbarHost
 import com.nikanorov.newsjetminiflux.ui.modifiers.interceptKey
-import com.nikanorov.newsjetminiflux.ui.rememberContentPaddingForScreen
 import com.nikanorov.newsjetminiflux.ui.utils.BookmarkButton
 import com.nikanorov.newsjetminiflux.ui.utils.ReadButton
 import com.nikanorov.newsjetminiflux.ui.utils.ShareButton
@@ -88,8 +87,7 @@ fun HomeFeedWithArticleDetailsScreen(
         scaffoldState = scaffoldState,
         modifier = modifier,
 
-        ) { hasPostsUiState, contentModifier ->
-        val contentPadding = rememberContentPaddingForScreen(additionalTop = 8.dp)
+        ) { hasPostsUiState, contentPadding, contentModifier ->
         Row(contentModifier) {
             PostList(
                 pagingPostList = pagingPostList,
@@ -191,15 +189,13 @@ fun HomeFeedScreen(
         homeListLazyListState = homeListLazyListState,
         scaffoldState = scaffoldState,
         modifier = modifier
-    ) { hasPostsUiState, contentModifier ->
+    ) { hasPostsUiState, contentPadding, contentModifier ->
         PostList(
             pagingPostList = pagingPostList,
             showExpandedSearch = !showTopAppBar,
             onArticleTapped = onSelectPost,
             onToggleFavorite = onToggleFavorite,
-            contentPadding = rememberContentPaddingForScreen(
-                additionalTop = if (showTopAppBar) 0.dp else 8.dp
-            ),
+            contentPadding = contentPadding,
             modifier = contentModifier,
             state = homeListLazyListState,
             searchInput = searchInput,
@@ -231,6 +227,7 @@ private fun HomeScreenWithList(
     modifier: Modifier = Modifier,
     hasPostsContent: @Composable (
         uiState: HomeUiState.HasPosts,
+        contentPadding: PaddingValues,
         modifier: Modifier
     ) -> Unit
 ) {
@@ -259,7 +256,7 @@ private fun HomeScreenWithList(
             onRefresh = onRefreshPosts,
             content = {
                 when (uiState) {
-                    is HomeUiState.HasPosts -> hasPostsContent(uiState, contentModifier)
+                    is HomeUiState.HasPosts -> hasPostsContent(uiState, innerPadding, contentModifier)
                     is HomeUiState.NoPosts -> {
                         if (uiState.errorMessages.isEmpty()) {
                             // if there are no posts, and no error, let the user refresh manually

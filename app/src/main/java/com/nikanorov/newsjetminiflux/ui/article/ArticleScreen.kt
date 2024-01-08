@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -41,7 +42,6 @@ import androidx.compose.ui.unit.dp
 import com.nikanorov.newsjetminiflux.R
 import com.nikanorov.newsjetminiflux.model.Post
 import com.nikanorov.newsjetminiflux.utils.isScrolled
-import com.google.accompanist.insets.navigationBarsPadding
 import com.nikanorov.newsjetminiflux.ui.utils.*
 
 /**
@@ -97,7 +97,7 @@ fun ArticleScreen(
                         onToggleFavorite = onToggleFavorite,
                         onToggleRead = onToggleRead,
                         onSharePost = { sharePost(post, context) },
-                        modifier = Modifier.navigationBarsPadding(start = false, end = false)
+                        modifier = Modifier.navigationBarsPadding()
                     )
                 }
             } else {

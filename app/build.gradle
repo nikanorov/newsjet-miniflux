@@ -98,9 +98,6 @@ dependencies {
     implementation 'androidx.paging:paging-compose:1.0.0-alpha16'
     debugImplementation "androidx.compose.ui:ui-tooling"
 
-    implementation "com.google.accompanist:accompanist-insets:$accompanist_version"
-    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
-
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.activity:activity-ktx:1.8.2'
     implementation 'androidx.core:core-ktx:1.12.0'
